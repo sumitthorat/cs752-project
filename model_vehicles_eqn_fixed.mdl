@@ -1,0 +1,280 @@
+{UTF-8}
+Net change in farming activities=
+	IF THEN ELSE( Lockdown=1 , -Farming activities + 500 , IF THEN ELSE( Lockdown=2, 1000\
+		 , (MAX( Farming activities requirement-Farming activities, 0 ))))
+	~	
+	~		|
+
+Farming activities requirement=
+	1000*Food demand
+	~	
+	~		|
+
+Net change in vehicles in use=
+	(((Net change in farming activities*Vehicle per farming activity)+(Net change in industrial activities\
+		*Vehicle per Indsutrial activity
+	)+(Net change in tourism and leisure activities
+	*Vehicle per tourism activity)+(Net change in wildlife conservation activities*Vehicle per wildlife activity\
+		))/Regulations and presevation)-(Reduction rate in vehicles
+	*Vehicles in use)
+	~	
+	~		|
+
+Vehicles in use= INTEG (
+	Net change in vehicles in use,
+		5000)
+	~	
+	~		|
+
+Vehicle per farming activity=
+	1
+	~	
+	~		|
+
+Vehicle per Indsutrial activity=
+	2
+	~	
+	~		|
+
+Vehicle per tourism activity=
+	1
+	~	
+	~		|
+
+Vehicle per wildlife activity=
+	1
+	~	
+	~		|
+
+Net change in industrial activities=
+	IF THEN ELSE( Lockdown=1 , -Industrial activities + 100 , IF THEN ELSE( Lockdown=2, \
+		1000 , (Industrial activities*Industrial activities addition rate
+)/Regulations and presevation ))
+	~	
+	~		|
+
+Net change in tourism and leisure activities=
+	IF THEN ELSE( Lockdown=1 , -Tourism and leisure activities + 1 , IF THEN ELSE( Lockdown\
+		=2, 1000 , (Tourism and leisure activities
+*Tourism and leisure activities addition rate)/Regulations and presevation ))
+	~	
+	~		|
+
+Net change in wildlife conservation activities=
+	IF THEN ELSE( Lockdown=1 , -Wildlife conservation activities + 100 , IF THEN ELSE( Lockdown\
+		=2, 1000 , (Wildlife conservation activities
+*Wildlife conservation activities addition rate)/Regulations and presevation ))
+	~	
+	~		|
+
+Regulations and presevation=
+	1
+	~	
+	~		|
+
+Reduction rate in vehicles=
+	0.001
+	~	
+	~		|
+
+Wildlife conservation activities addition rate=
+	0.05
+	~	
+	~		|
+
+Tourism and leisure activities= INTEG (
+	Net change in tourism and leisure activities,
+		1000)
+	~	
+	~		|
+
+Tourism and leisure activities addition rate=
+	0.005
+	~	
+	~		|
+
+Farming activities= INTEG (
+	Net change in farming activities,
+		1000)
+	~	
+	~		|
+
+Food demand=
+	Population lookup(Time)/(1e+06)
+	~	
+	~		|
+
+Wildlife conservation activities= INTEG (
+	Net change in wildlife conservation activities,
+		1000)
+	~	
+	~		|
+
+Population lookup(
+	[(0,0)-(100,2e+06)],(0,1e+06),(100,1.1664e+06),(100,0))
+	~	
+	~		|
+
+Industrial activities addition rate=
+	0.001
+	~	
+	~		|
+
+Industrial activities= INTEG (
+	Net change in industrial activities,
+		1000)
+	~	
+	~		|
+
+Lockdown=
+	IF THEN ELSE(Time>=20 :AND: Time<=30, 1 , IF THEN ELSE( Time=31 , 2 , 0 ) )
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 50
+	~	Week
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Week
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Week [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Week [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,100,0
+10,1,Industrial activities,655,-129,40,20,3,3,0,0,0,0,0,0,0,0,0,0,0,0
+12,2,48,433,-132,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,3,5,1,4,0,0,22,0,0,0,-1--1--1,,1|(586,-132)|
+1,4,5,2,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(493,-132)|
+11,5,48,551,-132,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,6,Net change in industrial activities,551,-102,49,21,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,7,Vehicles in use,1265,-3,40,20,3,3,0,0,0,0,0,0,0,0,0,0,0,0
+12,8,48,937,-3,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,9,11,7,4,0,0,22,0,0,0,-1--1--1,,1|(1179,-5)|
+1,10,11,8,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(1033,-5)|
+11,11,48,1127,-5,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,12,Net change in vehicles in use,1127,22,63,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,13,Tourism and leisure activities,631,127,43,24,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,14,48,429,120,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,15,17,13,4,0,0,22,0,0,0,-1--1--1,,1|(561,120)|
+1,16,17,14,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(479,120)|
+11,17,48,527,120,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,18,Net change in tourism and leisure activities,527,159,41,29,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,19,Wildlife conservation activities,629,324,53,23,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,20,48,406,318,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,21,23,19,4,0,0,22,0,0,0,-1--1--1,,1|(548,318)|
+1,22,23,20,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(461,318)|
+11,23,48,514,318,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,24,Net change in wildlife conservation activities,514,351,63,24,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,25,Lockdown,155,48,37,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,26,25,6,0,0,0,0,0,64,0,-1--1--1,,1|(336,-20)|
+1,27,25,18,0,0,0,0,0,64,0,-1--1--1,,1|(331,100)|
+1,28,25,24,1,0,0,0,0,64,0,-1--1--1,,1|(167,225)|
+10,29,Time,23,-59,28,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,30,29,25,0,0,0,0,0,64,0,-1--1--1,,1|(83,-9)|
+10,31,Farming activities,663,483,53,27,3,3,0,0,0,0,0,0,0,0,0,0,0,0
+12,32,48,395,477,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,33,35,31,4,0,0,22,0,0,0,-1--1--1,,1|(561,478)|
+1,34,35,32,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(451,478)|
+11,35,48,505,478,8,11,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,36,Net change in farming activities,505,507,60,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,37,Food demand,322,636,47,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,38,25,36,1,0,0,0,0,64,0,-1--1--1,,1|(201,468)|
+10,39,Regulations and presevation,1261,-348,56,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,40,39,6,1,0,0,0,0,64,0,-1--1--1,,1|(606,-282)|
+1,41,39,18,1,0,0,0,0,64,0,-1--1--1,,1|(691,-228)|
+1,42,39,24,1,0,0,0,0,64,0,-1--1--1,,1|(773,-42)|
+10,43,Industrial activities addition rate,397,-255,49,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,44,43,6,0,0,0,0,0,64,0,-1--1--1,,1|(465,-187)|
+1,45,1,6,1,0,0,0,0,64,0,-1--1--1,,1|(529,-186)|
+10,46,Population lookup,259,723,46,8,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,47,46,37,1,0,0,0,0,64,0,-1--1--1,,1|(305,675)|
+1,48,29,37,1,0,0,0,0,64,0,-1--1--1,,1|(78,492)|
+10,49,Regulations and presevation,809,696,45,14,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,50,31,36,1,0,0,0,0,64,0,-1--1--1,,1|(593,438)|
+10,51,Tourism and leisure activities addition rate,431,48,57,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,52,Wildlife conservation activities addition rate,404,240,57,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,53,51,18,0,0,0,0,0,64,0,-1--1--1,,1|(467,90)|
+1,54,52,24,0,0,0,0,0,64,0,-1--1--1,,1|(448,285)|
+10,55,Wildlife conservation activities,1378,247,34,21,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,56,13,18,1,0,0,0,0,64,0,-1--1--1,,1|(565,52)|
+1,57,19,24,1,0,0,0,0,64,0,-1--1--1,,1|(577,259)|
+10,58,Reduction rate in vehicles,1443,38,43,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,59,58,12,0,0,0,0,0,64,0,-1--1--1,,1|(1301,32)|
+1,60,7,12,1,0,0,0,0,64,0,-1--1--1,,1|(1242,40)|
+10,61,Vehicle per Indsutrial activity,1037,224,46,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,62,Vehicle per tourism activity,1169,223,41,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,63,Vehicle per wildlife activity,1381,167,42,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,64,Vehicle per farming activity,1282,210,42,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,65,61,12,0,0,0,0,0,64,0,-1--1--1,,1|(1077,131)|
+1,66,62,12,0,0,0,0,0,64,0,-1--1--1,,1|(1150,131)|
+1,67,64,12,0,0,0,0,0,64,0,-1--1--1,,1|(1210,123)|
+1,68,63,12,0,0,0,0,0,64,0,-1--1--1,,1|(1264,100)|
+1,69,6,12,1,0,0,0,0,64,0,-1--1--1,,1|(893,65)|
+1,70,18,12,1,0,0,0,0,64,0,-1--1--1,,1|(852,198)|
+1,71,24,12,1,0,0,0,0,64,0,-1--1--1,,1|(846,380)|
+1,72,36,12,1,0,0,0,0,64,0,-1--1--1,,1|(809,268)|
+1,73,39,12,1,0,0,0,0,64,0,-1--1--1,,1|(1132,-126)|
+10,74,Farming activities requirement,679,582,47,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,75,37,74,1,0,0,0,0,64,0,-1--1--1,,1|(608,626)|
+1,76,74,36,0,0,0,0,0,64,0,-1--1--1,,1|(604,549)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 2
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,100,0
+///---\\\
+:L<%^E!@
+1:Current.vdfx
+9:Current
+23:0
+15:0,0,0,0,0,0
+19:100,0
+27:0,
+34:0,
+42:0
+72:0
+73:0
+4:Time
+5:Vehicles in use
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:3
+41:0
+76:0
+77:0
+78:0
+79:0
+80:0
+81:0
+92:0
+24:0
+25:50
+26:50
+91:0
+90:0
+87:0
+75:
+43:
