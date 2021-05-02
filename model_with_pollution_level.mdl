@@ -1,64 +1,133 @@
 {UTF-8}
-Addition of bio medical waste  = A FUNCTION OF( )
-	~	
+Net change in marine vehicles use=
+	(((Net change in farming activities * Marine vehicle per farming activity)+(Net change in industrial activities\
+		 * Marine vehicle per industrial activity
+	)+(Net change in tourism and leisure activities
+	*Marine vehicle per tourism activity)+(Net change in wildlife conservation activities\
+		*Marine vehicle per wildlife activity
+))/Regulations and presevation)-(Reduction rate in maine vehicles
+	*Marine vehicles in use)
+	~	Boat/Week
 	~		|
 
-Air borne diseases hazard  = A FUNCTION OF( Air Pollution)
-	~	
+Air Pollution= INTEG (
+	Net change in air pollution,
+		1000)
+	~	micrograms/m3
 	~		|
 
-Air Pollution  = A FUNCTION OF( Net change in air pollution)
-	~	
+Air pollution per air vehicle=
+	2
+	~	(micrograms/m3)/Airplane
 	~		|
 
-Human health risk index  = A FUNCTION OF( Air borne diseases hazard,Quality of food,Water borne diseases hazard\
-		)
-	~	
+Air pollution per industrial activity=
+	5
+	~	(micrograms/m3)/IA
 	~		|
 
-Net change in water pollution  = A FUNCTION OF( Marine vehicles in use,Pesticide usage\
-		,Treatment of bio medical waste,Waste water)
-	~	
+Air pollution per marine vehicle=
+	2
+	~	(micrograms/m3)/Boat
 	~		|
 
-Treatment of bio medical waste  = A FUNCTION OF( )
-	~	
-	~		|
-
-Awareness  = A FUNCTION OF( Air Pollution,Bio medical waste,Noise Pollution,Water Pollution\
-		)
-	~	
-	~		|
-
-Pesticide usage  = A FUNCTION OF( Farming activities,Regulations and presevation)
-	~	
-	~		|
-
-Soil quality index per bio medical waste=
+Air pollution per tourisn and leisure activity=
 	1
-	~	
+	~	(micrograms/m3)/TLA
 	~		|
 
-Quality of food  = A FUNCTION OF( Soil pollution)
-	~	
-	~		|
-
-Soil quality index per water pollutant=
+Air pollution per vehicle=
 	1
-	~	
+	~	(micrograms/m3)/Car
 	~		|
 
-Soil treatment=
+Deforestation rate=
+	1/Wildlife conservation activities
+	~	Dmnl
+	~		|
+
+Net change in industrial activities=
+	IF THEN ELSE( Lockdown=1 , (-Industrial activities + Essential industrial activities\
+		)/Unit converter , IF THEN ELSE( Lockdown
+=2, Baseline industrial activities/Unit converter
+	 , (Industrial activities*Industrial activities addition rate
+	)/Regulations and presevation ))
+	~	IA/Week
+	~		|
+
+Net change in vehicles in use=
+	(((Net change in farming activities*Vehicle per farming activity)+(Net change in industrial activities\
+		*Vehicle per Indsutrial activity
+	)+(Net change in tourism and leisure activities
+	*Vehicle per tourism activity)+(Net change in wildlife conservation activities*Vehicle per wildlife conservation activity
+))/Regulations and presevation)-(Reduction rate in vehicles
+	*Vehicles in use)
+	~	Car/Week
+	~		|
+
+Net change in air pollution=
+	((Air pollution per air vehicle*Air vehicles in use)+(Air pollution per industrial activity\
+		*Industrial activities)+(Air pollution per marine vehicle*Marine vehicles in use)+(\
+		Air pollution per tourisn and leisure activity*Tourism and leisure activities)+(Air pollution per vehicle\
+		*Vehicles in use))*Deforestation rate
+	~	micrograms/m3
+	~		|
+
+Pesticide usage per farming acitivity=
+	0.05/Regulations and presevation
+	~	Ton
+	~		|
+
+Soil pollutants per tourism and leisure activity=
 	0.1
 	~	
 	~		|
 
-Bio medical waste  = A FUNCTION OF( Addition of bio medical waste,-Treatment of bio medical waste\
-		)
+Net change in tourism and leisure activities=
+	IF THEN ELSE( Lockdown=1 , (-Tourism and leisure activities + Unstoppable tourism and leisure activities\
+		)/Unit converter
+ , IF THEN ELSE(
+	 Lockdown=2, Baseline tourism and leisure activities/Unit converter , (Tourism and leisure activities
+	*Tourism and leisure activities addition rate)/Regulations and presevation ))
+	~	TLA/Week
+	~		|
+
+Net change in soil pollution=
+	((Air Pollution*Soil pollutants due to air pollution)+(Industrial activities
+	*Soil pollutants per industrial activitiy)+(Water Pollution*Soil pollutants due to polluted water\
+		)+(Pesticide usage per farming acitivity*Farming activities
+	)+(Soil pollutants per tourism and leisure activity*Tourism and leisure activities))\
+		-(Soil pollution*Soil pollution reduction)
 	~	
 	~		|
 
-Deforestation rate  = A FUNCTION OF( Wildlife conservation activities)
+Net change in air vehicles use=
+	(((Net change in industrial activities*Air vehicle per industrial activity
+	)+(Net change in tourism and leisure activities
+	*Air vehicle per tourism activity))/Regulations and presevation)-(Reduction rate in air vehicles
+	*Air vehicles in use)
+	~	Airplane/Week
+	~		|
+
+Net change in wildlife conservation activities=
+	IF THEN ELSE( Lockdown=1 , (-Wildlife conservation activities + Essential wildlife conservation activities\
+		)/Unit converter
+ , IF THEN ELSE( Lockdown=2, Baseline wildlife conservation activities/Unit converter\
+		 , (Wildlife conservation activities
+	*Wildlife conservation activities addition rate)/Regulations and presevation))
+	~	WCA/Week
+	~		|
+
+Net change in water pollution  = A FUNCTION OF( Marine vehicles in use,Waste water)
+	~	
+	~		|
+
+Noise pollution per vehicle in use=
+	0.003
+	~	
+	~		|
+
+Awareness  = A FUNCTION OF( Air Pollution,Noise Pollution,Water Pollution)
 	~	
 	~		|
 
@@ -68,7 +137,63 @@ Soil pollution= INTEG (
 	~	
 	~		|
 
-Soil quality index per air pollutant=
+Noise Pollution= INTEG (
+	Net change in noise pollution,
+		50)
+	~	
+	~		|
+
+Noise pollution per marine vehicle in use=
+	0.01
+	~	
+	~		|
+
+Noise pollution per industrial activity=
+	0.01
+	~	
+	~		|
+
+Regulations and presevation=
+	1
+	~	Dmnl
+	~		|
+
+Net change in noise pollution=
+	Net change in air vehicles use*Noise pollution per air vehicle in use + Net change in industrial activities\
+		*Noise pollution per industrial activity + Net change in marine vehicles use*Noise pollution per marine vehicle in use\
+		 + Net change in vehicles in use*Noise pollution per vehicle in use
+	~	Decibels
+	~		|
+
+Noise pollution per air vehicle in use=
+	0.01
+	~	
+	~		|
+
+Air borne diseases hazard  = A FUNCTION OF( Air Pollution)
+	~	
+	~		|
+
+Human health risk index  = A FUNCTION OF( Air borne diseases hazard,Quality of food,Water borne diseases hazard\
+		)
+	~	
+	~		|
+
+Quality of food  = A FUNCTION OF( Soil pollution)
+	~	
+	~		|
+
+Soil pollutants due to polluted water=
+	1
+	~	
+	~		|
+
+Soil pollution reduction=
+	0.1
+	~	
+	~		|
+
+Soil pollutants due to air pollution=
 	1
 	~	
 	~		|
@@ -77,21 +202,8 @@ Water Pollution  = A FUNCTION OF( Net change in water pollution)
 	~	
 	~		|
 
-Soil quality index per industrial activity=
+Soil pollutants per industrial activitiy=
 	1
-	~	
-	~		|
-
-Net change in noise pollution  = A FUNCTION OF( Industrial activities,Vehicles in use\
-		)
-	~	
-	~		|
-
-Net change in soil pollution=
-	((Air Pollution*Soil quality index per air pollutant)+(Bio medical waste*Soil quality index per bio medical waste\
-		)+(Industrial activities*Soil quality index per industrial activity)+(Water Pollution\
-		*Soil quality index per water pollutant)+(Pesticide usage*Soil pollution))-(Soil pollution\
-		*Soil treatment)
 	~	
 	~		|
 
@@ -100,23 +212,8 @@ Waste water  = A FUNCTION OF( Farming activities,Industrial activities,Tourism a
 	~	
 	~		|
 
-Net change in air pollution  = A FUNCTION OF( Deforestation rate,Industrial activities\
-		,Treatment of bio medical waste,Vehicles in use)
-	~	
-	~		|
-
-Noise Pollution  = A FUNCTION OF( Net change in noise pollution)
-	~	
-	~		|
-
 Water borne diseases hazard  = A FUNCTION OF( Water Pollution)
 	~	
-	~		|
-
-Regulations and presevation  = A FUNCTION OF( Awareness) ~~|
-Regulations and presevation=
-	1
-	~	Dmnl
 	~		|
 
 Essential wildlife conservation activities=
@@ -131,33 +228,9 @@ Net change in farming activities=
 	~	FA/Week
 	~		|
 
-Net change in industrial activities=
-	IF THEN ELSE( Lockdown=1 , (-Industrial activities + Essential industrial activities\
-		)/Unit converter , IF THEN ELSE( Lockdown=2, Baseline industrial activities/Unit converter
-	 , (Industrial activities*Industrial activities addition rate
-	)/Regulations and presevation ))
-	~	IA/Week
-	~		|
-
 Baseline wildlife conservation activities=
 	1000
 	~	WCA
-	~		|
-
-Net change in tourism and leisure activities=
-	IF THEN ELSE( Lockdown=1 , (-Tourism and leisure activities + Unstoppable tourism and leisure activities\
-		)/Unit converter , IF THEN ELSE(
-	 Lockdown=2, Baseline tourism and leisure activities/Unit converter , (Tourism and leisure activities
-	*Tourism and leisure activities addition rate)/Regulations and presevation ))
-	~	TLA/Week
-	~		|
-
-Net change in wildlife conservation activities=
-	IF THEN ELSE( Lockdown=1 , (-Wildlife conservation activities + Essential wildlife conservation activities\
-		)/Unit converter , IF THEN ELSE( Lockdown=2, Baseline wildlife conservation activities\
-		/Unit converter , (Wildlife conservation activities
-	*Wildlife conservation activities addition rate)/Regulations and presevation))
-	~	WCA/Week
 	~		|
 
 Farming activities target=
@@ -260,34 +333,6 @@ Marine vehicles in use= INTEG (
 	Net change in marine vehicles use,
 		2250)
 	~	Boat
-	~		|
-
-Net change in air vehicles use=
-	(((Net change in industrial activities*Air vehicle per industrial activity
-	)+(Net change in tourism and leisure activities
-	*Air vehicle per tourism activity))/Regulations and presevation)-(Reduction rate in air vehicles
-	*Air vehicles in use)
-	~	Airplane/Week
-	~		|
-
-Net change in marine vehicles use=
-	(((Net change in farming activities * Marine vehicle per farming activity)+(Net change in industrial activities\
-		 * Marine vehicle per industrial activity
-	)+(Net change in tourism and leisure activities
-	*Marine vehicle per tourism activity)+(Net change in wildlife conservation activities\
-		*Marine vehicle per wildlife activity))/Regulations and presevation)-(Reduction rate in maine vehicles
-	*Marine vehicles in use)
-	~	Boat/Week
-	~		|
-
-Net change in vehicles in use=
-	(((Net change in farming activities*Vehicle per farming activity)+(Net change in industrial activities\
-		*Vehicle per Indsutrial activity
-	)+(Net change in tourism and leisure activities
-	*Vehicle per tourism activity)+(Net change in wildlife conservation activities*Vehicle per wildlife conservation activity\
-		))/Regulations and presevation)-(Reduction rate in vehicles
-	*Vehicles in use)
-	~	Car/Week
 	~		|
 
 Vehicles in use= INTEG (
@@ -400,250 +445,266 @@ TIME STEP  = 1
 \\\---/// Sketch information - do not modify anything except names
 V300  Do not put anything below this section - it will be ignored
 *View 1
-$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,75,0
-10,1,Industrial activities,-1283,330,53,27,3,3,0,0,0,0,0,0,0,0,0,0,0,0
-12,2,48,-1580,326,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
-1,3,5,1,4,0,0,22,0,0,0,-1--1--1,,1|(-1375,326)|
-1,4,5,2,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(-1501,326)|
-11,5,48,-1423,326,9,11,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,6,Net change in industrial activities,-1423,366,65,28,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
-10,7,Vehicles in use,29,492,53,27,3,3,0,0,0,0,0,0,0,0,0,0,0,0
-12,8,48,-407,492,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
-1,9,11,7,4,0,0,22,0,0,0,-1--1--1,,1|(-85,490)|
-1,10,11,8,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(-281,490)|
-11,11,48,-155,490,9,11,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,12,Net change in vehicles in use,-155,526,84,25,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
-10,13,Tourism and leisure activities,-1279,672,57,32,3,131,0,0,0,0,0,0,0,0,0,0,0,0
-12,14,48,-1584,663,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
-1,15,17,13,4,0,0,22,0,0,0,-1--1--1,,1|(-1391,664)|
-1,16,17,14,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(-1519,664)|
-11,17,48,-1455,664,9,11,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,18,Net change in tourism and leisure activities,-1455,715,55,39,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
-10,19,Wildlife conservation activities,-1319,935,71,31,3,131,0,0,0,0,0,0,0,0,0,0,0,0
-12,20,48,-1616,927,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
-1,21,23,19,4,0,0,22,0,0,0,-1--1--1,,1|(-1427,928)|
-1,22,23,20,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(-1544,928)|
-11,23,48,-1472,928,9,11,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,24,Net change in wildlife conservation activities,-1472,971,84,32,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
-10,25,Lockdown,-1951,567,49,15,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,26,25,6,1,0,0,0,0,64,0,-1--1--1,,1|(-1743,430)|
-1,27,25,18,0,0,0,0,0,64,0,-1--1--1,,1|(-1713,637)|
-1,28,25,24,1,0,0,0,0,64,0,-1--1--1,,1|(-1935,803)|
-10,29,Time,-2201,998,37,15,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
-1,30,29,25,0,0,0,0,0,64,0,-1--1--1,,1|(-2081,788)|
-10,31,Farming activities,-1272,1147,71,36,3,3,0,0,0,0,0,0,0,0,0,0,0,0
-12,32,48,-1631,1139,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
-1,33,35,31,4,0,0,22,0,0,0,-1--1--1,,1|(-1408,1139)|
-1,34,35,32,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(-1558,1139)|
-11,35,48,-1484,1139,11,15,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,36,Net change in farming activities,-1484,1179,80,25,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
-10,37,Food demand,-1715,1414,63,15,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,38,25,36,1,0,0,0,0,64,0,-1--1--1,,1|(-1833,1088)|
-10,39,Regulations and presevation,-701,171,75,25,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,40,39,6,1,0,0,0,0,64,0,-1--1--1,,1|(-1301,304)|
-1,41,39,18,1,0,0,0,0,64,0,-1--1--1,,1|(-1244,491)|
-1,42,39,24,1,0,0,0,0,64,0,-1--1--1,,1|(-1079,562)|
-10,43,Industrial activities addition rate,-1628,162,65,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,44,43,6,0,0,0,0,0,64,0,-1--1--1,,1|(-1536,254)|
-1,45,1,6,1,0,0,0,0,64,0,-1--1--1,,1|(-1420,263)|
-10,46,Population lookup,-1812,1467,61,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,47,46,37,1,0,0,0,0,64,0,-1--1--1,,1|(-1748,1442)|
-1,48,29,37,1,0,0,0,0,64,0,-1--1--1,,1|(-1917,1358)|
-10,49,Regulations and presevation,-579,1426,60,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
-1,50,31,36,1,0,0,0,0,64,0,-1--1--1,,1|(-1367,1087)|
-10,51,Tourism and leisure activities addition rate,-1620,535,76,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,52,Wildlife conservation activities addition rate,-1763,823,76,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,53,51,18,0,0,0,0,0,64,0,-1--1--1,,1|(-1552,609)|
-1,54,52,24,0,0,0,0,0,64,0,-1--1--1,,1|(-1637,887)|
-10,55,Wildlife conservation activities,181,826,45,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
-1,56,13,18,1,0,0,0,0,64,0,-1--1--1,,1|(-1388,512)|
-1,57,19,24,1,0,0,0,0,64,0,-1--1--1,,1|(-1388,847)|
-10,58,Reduction rate in vehicles,105,611,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,59,58,12,0,0,0,0,0,64,0,-1--1--1,,1|(-9,574)|
-1,60,7,12,1,0,0,0,0,64,0,-1--1--1,,1|(0,551)|
-10,61,Vehicle per Indsutrial activity,-275,795,61,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,62,Vehicle per tourism activity,-99,794,55,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,63,Vehicle per wildlife conservation activity,185,719,56,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,64,Vehicle per farming activity,53,776,56,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,65,61,12,0,0,0,0,0,64,0,-1--1--1,,1|(-220,669)|
-1,66,62,12,0,0,0,0,0,64,0,-1--1--1,,1|(-125,669)|
-1,67,64,12,0,0,0,0,0,64,0,-1--1--1,,1|(-44,659)|
-1,68,63,12,0,0,0,0,0,64,0,-1--1--1,,1|(26,628)|
-1,69,6,12,1,0,0,0,0,64,0,-1--1--1,,1|(-806,443)|
-1,70,18,12,1,0,0,0,0,64,0,-1--1--1,,1|(-827,624)|
-1,71,24,12,1,0,0,0,0,64,0,-1--1--1,,1|(-816,749)|
-1,72,36,12,1,0,0,0,0,64,0,-1--1--1,,1|(-827,856)|
-1,73,39,12,1,0,0,0,0,64,0,-1--1--1,,1|(-401,482)|
-10,74,Farming activities target,-1409,1295,63,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,75,37,74,1,0,0,0,0,64,0,-1--1--1,,1|(-1467,1339)|
-1,76,74,36,0,0,0,0,0,64,0,-1--1--1,,1|(-1441,1245)|
-10,77,Marine vehicles in use,49,1047,59,31,3,131,0,0,0,0,0,0,0,0,0,0,0,0
-12,78,48,-340,1059,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
-1,79,81,77,4,0,0,22,0,0,0,-1--1--1,,1|(-87,1059)|
-1,80,81,78,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(-254,1059)|
-11,81,48,-171,1059,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,82,Net change in marine vehicles use,-171,1086,65,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
-10,83,Marine vehicle per industrial activity,-407,1239,63,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,84,Marine vehicle per tourism activity,-196,1274,63,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,85,Marine vehicle per farming activity,-27,1259,65,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,86,Marine vehicle per wildlife activity,109,1182,63,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,87,83,82,0,0,0,0,0,64,0,-1--1--1,,1|(-296,1166)|
-1,88,84,82,0,0,0,0,0,64,0,-1--1--1,,1|(-185,1186)|
-1,89,85,82,0,0,0,0,0,64,0,-1--1--1,,1|(-95,1177)|
-1,90,86,82,0,0,0,0,0,64,0,-1--1--1,,1|(-25,1136)|
-1,91,49,82,1,0,0,0,0,64,0,-1--1--1,,1|(-347,1279)|
-1,92,6,82,0,0,0,0,0,64,0,-1--1--1,,1|(-797,727)|
-1,93,18,82,0,0,0,0,0,64,0,-1--1--1,,1|(-825,896)|
-1,94,24,82,0,0,0,0,0,64,0,-1--1--1,,1|(-819,1028)|
-1,95,36,82,0,0,0,0,0,64,0,-1--1--1,,1|(-827,1132)|
-10,96,Reduction rate in maine vehicles,205,1146,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,97,96,82,0,0,0,0,0,64,0,-1--1--1,,1|(27,1117)|
-1,98,77,82,1,0,0,0,0,64,0,-1--1--1,,1|(-143,998)|
-10,99,Air vehicles in use,37,1495,45,31,3,131,0,0,0,0,0,0,0,0,0,0,0,0
-12,100,48,-311,1491,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
-1,101,103,99,4,0,0,22,0,0,0,-1--1--1,,1|(-78,1491)|
-1,102,103,100,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(-232,1491)|
-11,103,48,-155,1491,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,104,Net change in air vehicles use,-155,1519,57,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
-10,105,Air vehicle per industrial activity,-520,1570,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,106,Air vehicle per tourism activity,-335,1591,52,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,107,105,104,0,0,0,0,0,64,0,-1--1--1,,1|(-345,1545)|
-1,108,106,104,0,0,0,0,0,64,0,-1--1--1,,1|(-252,1557)|
-1,109,49,104,1,0,0,0,0,64,0,-1--1--1,,1|(-395,1499)|
-1,110,99,104,1,0,0,0,0,64,0,-1--1--1,,1|(-99,1463)|
-10,111,Reduction rate in air vehicles,-72,1607,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,112,111,104,0,0,0,0,0,64,0,-1--1--1,,1|(-109,1567)|
-10,113,Net change in industrial activities,-432,1710,67,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
-1,114,113,104,1,0,0,0,0,64,0,-1--1--1,,1|(-215,1635)|
-10,115,Net change in tourism and leisure activities,-219,1747,79,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
-1,116,115,104,1,0,0,0,0,64,0,-1--1--1,,1|(-147,1655)|
-10,117,Baseline population,-1560,1470,67,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,118,117,37,1,0,0,0,0,64,0,-1--1--1,,1|(-1665,1448)|
-10,119,Unit converter,-1581,1262,49,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,120,119,36,0,0,0,0,0,64,0,-1--1--1,,1|(-1547,1232)|
-1,121,119,37,1,0,0,0,0,64,0,-1--1--1,,1|(-1639,1336)|
-10,122,Essential industrial activities,-1452,167,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,123,122,5,0,0,0,0,0,64,0,-1--1--1,,1|(-1439,244)|
-10,124,Baseline industrial activities,-1275,152,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,125,124,5,0,0,0,0,0,64,0,-1--1--1,,1|(-1350,239)|
-10,126,Unstoppable tourism and leisure activities,-1481,484,64,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,127,Baseline tourism and leisure activities,-1324,480,69,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,128,126,17,0,0,0,0,0,64,0,-1--1--1,,1|(-1470,572)|
-1,129,127,17,0,0,0,0,0,64,0,-1--1--1,,1|(-1390,571)|
-10,130,Essential farming activities,-1712,1044,53,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,131,Baseline farming activities,-1228,1391,52,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,132,130,35,0,0,0,0,0,64,0,-1--1--1,,1|(-1588,1095)|
-1,133,131,74,1,0,0,0,0,64,0,-1--1--1,,1|(-1320,1367)|
-1,134,131,36,1,0,0,0,0,64,0,-1--1--1,,1|(-1265,1294)|
-10,135,Unit converter,-1543,1056,59,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
-1,136,135,24,0,0,0,0,0,64,0,-1--1--1,,1|(-1521,1029)|
-10,137,Essential wildlife conservation activities,-1577,820,76,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,138,Baseline wildlife conservation activities,-1415,820,76,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,139,137,24,0,0,0,0,0,64,0,-1--1--1,,1|(-1534,883)|
-1,140,138,24,0,0,0,0,0,64,0,-1--1--1,,1|(-1439,882)|
-10,141,Unit converter,-1613,754,59,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
-1,142,141,18,0,0,0,0,0,64,0,-1--1--1,,1|(-1547,737)|
-10,143,Unit converter,-1556,443,59,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
-1,144,143,6,0,0,0,0,0,64,0,-1--1--1,,1|(-1511,416)|
-10,145,Noise Pollution,1363,264,61,36,3,131,0,0,0,0,0,0,0,0,0,0,0,0
-12,146,48,986,258,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
-1,147,149,145,4,0,0,22,0,0,0,-1--1--1,,1|(1228,258)|
-1,148,149,146,68,0,0,22,2,0,0,-1--1--1,|0||-1--1--1,1|(1069,258)|
-11,149,0,1149,258,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,150,Net change in noise pollution,1149,285,49,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
-10,151,Air Pollution,1399,600,63,41,3,131,0,0,0,0,0,0,0,0,0,0,0,0
-12,152,48,1018,600,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
-1,153,155,151,4,0,0,22,0,0,0,-1--1--1,,1|(1262,600)|
-1,154,155,152,68,0,0,22,2,0,0,-1--1--1,|0||-1--1--1,1|(1102,600)|
-11,155,0,1182,600,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,156,Net change in air pollution,1182,627,57,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
-10,157,Water Pollution,1368,917,70,42,3,131,0,0,0,0,0,0,0,0,0,0,0,0
-12,158,48,1000,926,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
-1,159,161,157,4,0,0,22,0,0,0,-1--1--1,,1|(1229,926)|
-1,160,161,158,68,0,0,22,2,0,0,-1--1--1,|0||-1--1--1,1|(1079,926)|
-11,161,0,1154,926,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,162,Net change in water pollution,1154,953,50,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
-10,163,Soil pollution,1353,1669,75,40,3,131,0,0,0,0,0,0,0,0,0,0,0,0
-12,164,48,956,1668,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
-1,165,167,163,4,0,0,22,0,0,0,-1--1--1,,1|(1203,1668)|
-1,166,167,164,68,0,0,22,2,0,0,-1--1--1,|0||-1--1--1,1|(1041,1668)|
-11,167,0,1122,1668,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,168,Net change in soil pollution,1122,1695,60,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
-10,169,Bio medical waste,1387,1320,77,44,3,131,0,0,0,0,0,0,0,0,0,0,0,0
-12,170,48,992,1301,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
-1,171,173,169,4,0,0,22,0,0,0,-1--1--1,,1|(1236,1301)|
-1,172,173,170,100,0,0,22,2,0,0,-1--1--1,|0||-1--1--1,1|(1076,1301)|
-11,173,0,1156,1301,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,174,Addition of bio medical waste,1156,1328,52,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
-12,175,48,1686,1319,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
-1,176,178,175,4,0,0,22,0,0,0,-1--1--1,,1|(1626,1319)|
-1,177,178,169,100,0,0,22,0,0,0,-1--1--1,,1|(1514,1319)|
-11,178,0,1570,1319,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,179,Treatment of bio medical waste,1570,1346,56,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
-10,180,Air borne diseases hazard,1905,356,61,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,181,Water borne diseases hazard,1970,906,52,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,182,Quality of food,2034,1472,51,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,183,Human health risk index,2616,639,47,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,184,Awareness,1591,69,37,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,185,7,150,0,0,0,0,0,64,0,-1--1--1,,1|(584,389)|
-1,186,7,156,1,0,0,0,0,64,0,-1--1--1,,1|(596,558)|
-1,187,145,184,0,0,0,0,0,64,0,-1--1--1,,1|(1486,158)|
-1,188,151,184,1,0,0,0,0,64,0,-1--1--1,,1|(1561,466)|
-1,189,157,184,1,0,0,0,0,64,0,-1--1--1,,1|(1713,375)|
-1,190,169,184,1,0,0,0,0,64,0,-1--1--1,,1|(1777,575)|
-1,191,157,181,0,0,0,0,0,64,0,-1--1--1,,1|(1671,911)|
-1,192,151,180,0,0,0,0,0,64,0,-1--1--1,,1|(1657,475)|
-1,193,180,183,0,0,0,0,0,64,0,-1--1--1,,1|(2253,494)|
-1,194,181,183,0,0,0,0,0,64,0,-1--1--1,,1|(2286,775)|
-1,195,182,183,0,0,0,0,0,64,0,-1--1--1,,1|(2317,1065)|
-1,196,163,182,0,0,0,0,0,64,0,-1--1--1,,1|(1704,1567)|
-1,197,157,168,1,0,0,0,0,64,0,-1--1--1,,1|(1000,1570)|
-1,198,151,168,1,0,0,0,0,64,0,-1--1--1,,1|(825,1240)|
-1,199,179,162,0,0,0,0,0,64,0,-1--1--1,,1|(1367,1154)|
-1,200,179,156,1,0,0,0,0,64,0,-1--1--1,,1|(1467,794)|
-10,201,Deforestation rate,1169,782,58,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,202,201,156,0,0,0,0,0,64,0,-1--1--1,,1|(1173,715)|
-10,203,Wildlife conservation activities,1041,851,76,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128,0,0,0,0,0,0
-1,204,203,201,0,0,0,0,0,64,0,-1--1--1,,1|(1105,815)|
-1,205,184,39,0,0,0,0,0,64,0,-1--1--1,,1|(470,119)|
-10,206,Industrial activities,1011,442,36,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128,0,0,0,0,0,0
-1,207,206,150,0,0,0,0,0,64,0,-1--1--1,,1|(1074,368)|
-1,208,206,156,0,0,0,0,0,64,0,-1--1--1,,1|(1091,529)|
-10,209,Waste water,524,1005,41,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,210,Pesticide usage,479,1551,50,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,211,206,209,0,0,0,0,0,64,0,-1--1--1,,1|(768,722)|
-10,212,Tourism and leisure activities,528,1203,58,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128,0,0,0,0,0,0
-1,213,212,209,0,0,0,0,0,64,0,-1--1--1,,1|(526,1106)|
-10,214,Farming activities,338,1060,34,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128,0,0,0,0,0,0
-1,215,214,209,0,0,0,0,0,64,0,-1--1--1,,1|(422,1035)|
-1,216,209,162,0,0,0,0,0,64,0,-1--1--1,,1|(827,980)|
-1,217,214,210,0,0,0,0,0,64,0,-1--1--1,,1|(407,1302)|
-10,218,Regulations and presevation,332,1658,59,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128,0,0,0,0,0,0
-1,219,218,210,0,0,0,0,0,64,0,-1--1--1,,1|(404,1604)|
-1,220,210,162,0,0,0,0,0,64,0,-1--1--1,,1|(806,1260)|
-1,221,210,168,1,0,0,0,0,64,0,-1--1--1,,1|(749,1718)|
-1,222,77,162,1,0,0,0,0,64,0,-1--1--1,,1|(639,934)|
-10,223,Industrial activities,859,1808,36,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128,0,0,0,0,0,0
-1,224,223,168,0,0,0,0,0,64,0,-1--1--1,,1|(979,1756)|
-10,225,Soil quality index per industrial activity,862,1896,71,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,226,Soil quality index per bio medical waste,1286,1927,71,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,227,Soil quality index per water pollutant,1431,1888,71,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-10,228,Soil quality index per air pollutant,1555,1820,59,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,229,225,168,0,0,0,0,0,64,0,-1--1--1,,1|(985,1799)|
-1,230,226,168,0,0,0,0,0,64,0,-1--1--1,,1|(1208,1816)|
-1,231,227,168,0,0,0,0,0,64,0,-1--1--1,,1|(1282,1795)|
-1,232,228,168,0,0,0,0,0,64,0,-1--1--1,,1|(1345,1759)|
-10,233,Soil treatment,1041,1896,46,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
-1,234,233,168,0,0,0,0,0,64,0,-1--1--1,,1|(1076,1805)|
-1,235,163,168,1,0,0,0,0,64,0,-1--1--1,,1|(1241,1623)|
-1,236,169,168,0,0,0,0,0,64,0,-1--1--1,,1|(1249,1514)|
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,75,0
+10,1,Industrial activities,-1118,276,53,27,3,3,0,0,0,0,0,0,0,0,0,0,0,0
+12,2,48,-1415,272,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,3,5,1,4,0,0,22,0,0,0,-1--1--1,,1|(-1210,272)|
+1,4,5,2,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(-1336,272)|
+11,5,48,-1258,272,9,11,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,6,Net change in industrial activities,-1258,312,65,28,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,7,Vehicles in use,194,438,53,27,3,3,0,0,0,0,0,0,0,0,0,0,0,0
+12,8,48,-242,438,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,9,11,7,4,0,0,22,0,0,0,-1--1--1,,1|(80,436)|
+1,10,11,8,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(-116,436)|
+11,11,48,10,436,9,11,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,12,Net change in vehicles in use,10,472,84,25,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,13,Tourism and leisure activities,-1114,618,57,32,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,14,48,-1419,609,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,15,17,13,4,0,0,22,0,0,0,-1--1--1,,1|(-1226,610)|
+1,16,17,14,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(-1354,610)|
+11,17,48,-1290,610,9,11,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,18,Net change in tourism and leisure activities,-1290,661,55,39,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,19,Wildlife conservation activities,-1154,881,71,31,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,20,48,-1451,873,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,21,23,19,4,0,0,22,0,0,0,-1--1--1,,1|(-1261,874)|
+1,22,23,20,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(-1378,874)|
+11,23,48,-1307,874,9,11,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,24,Net change in wildlife conservation activities,-1307,917,84,32,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,25,Lockdown,-1786,513,49,15,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,26,25,6,1,0,0,0,0,64,0,-1--1--1,,1|(-1578,376)|
+1,27,25,18,0,0,0,0,0,64,0,-1--1--1,,1|(-1547,583)|
+1,28,25,24,1,0,0,0,0,64,0,-1--1--1,,1|(-1770,749)|
+10,29,Time,-2036,944,37,15,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,30,29,25,0,0,0,0,0,64,0,-1--1--1,,1|(-1914,734)|
+10,31,Farming activities,-1107,1093,71,36,3,3,0,0,0,0,0,0,0,0,0,0,0,0
+12,32,48,-1466,1085,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,33,35,31,4,0,0,22,0,0,0,-1--1--1,,1|(-1243,1085)|
+1,34,35,32,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(-1393,1085)|
+11,35,48,-1319,1085,11,15,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,36,Net change in farming activities,-1319,1125,80,25,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,37,Food demand,-1550,1360,63,15,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,38,25,36,1,0,0,0,0,64,0,-1--1--1,,1|(-1668,1034)|
+10,39,Regulations and presevation,-536,117,75,25,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,40,39,6,1,0,0,0,0,64,0,-1--1--1,,1|(-1136,250)|
+1,41,39,18,1,0,0,0,0,64,0,-1--1--1,,1|(-1079,437)|
+1,42,39,24,1,0,0,0,0,64,0,-1--1--1,,1|(-913,509)|
+10,43,Industrial activities addition rate,-1463,108,65,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,44,43,6,0,0,0,0,0,64,0,-1--1--1,,1|(-1369,201)|
+1,45,1,6,1,0,0,0,0,64,0,-1--1--1,,1|(-1255,209)|
+10,46,Population lookup,-1647,1413,61,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,47,46,37,1,0,0,0,0,64,0,-1--1--1,,1|(-1583,1388)|
+1,48,29,37,1,0,0,0,0,64,0,-1--1--1,,1|(-1752,1304)|
+10,49,Regulations and presevation,-414,1372,60,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,50,31,36,1,0,0,0,0,64,0,-1--1--1,,1|(-1202,1033)|
+10,51,Tourism and leisure activities addition rate,-1455,481,76,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,52,Wildlife conservation activities addition rate,-1598,769,76,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,53,51,18,0,0,0,0,0,64,0,-1--1--1,,1|(-1386,555)|
+1,54,52,24,0,0,0,0,0,64,0,-1--1--1,,1|(-1471,833)|
+10,55,Wildlife conservation activities,346,772,45,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,56,13,18,1,0,0,0,0,64,0,-1--1--1,,1|(-1223,458)|
+1,57,19,24,1,0,0,0,0,64,0,-1--1--1,,1|(-1223,793)|
+10,58,Reduction rate in vehicles,270,557,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,59,58,12,0,0,0,0,0,64,0,-1--1--1,,1|(156,520)|
+1,60,7,12,1,0,0,0,0,64,0,-1--1--1,,1|(165,497)|
+10,61,Vehicle per Indsutrial activity,-110,741,61,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,62,Vehicle per tourism activity,66,740,55,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,63,Vehicle per wildlife conservation activity,350,665,56,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,64,Vehicle per farming activity,218,722,56,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,65,61,12,0,0,0,0,0,64,0,-1--1--1,,1|(-55,615)|
+1,66,62,12,0,0,0,0,0,64,0,-1--1--1,,1|(40,615)|
+1,67,64,12,0,0,0,0,0,64,0,-1--1--1,,1|(121,605)|
+1,68,63,12,0,0,0,0,0,64,0,-1--1--1,,1|(191,574)|
+1,69,6,12,1,0,0,0,0,64,0,-1--1--1,,1|(-640,391)|
+1,70,18,12,1,0,0,0,0,64,0,-1--1--1,,1|(-661,570)|
+1,71,24,12,1,0,0,0,0,64,0,-1--1--1,,1|(-650,695)|
+1,72,36,12,1,0,0,0,0,64,0,-1--1--1,,1|(-661,802)|
+1,73,39,12,1,0,0,0,0,64,0,-1--1--1,,1|(-236,428)|
+10,74,Farming activities target,-1244,1241,63,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,75,37,74,1,0,0,0,0,64,0,-1--1--1,,1|(-1302,1285)|
+1,76,74,36,0,0,0,0,0,64,0,-1--1--1,,1|(-1275,1191)|
+10,77,Marine vehicles in use,214,993,59,31,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,78,48,-175,1005,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,79,81,77,4,0,0,22,0,0,0,-1--1--1,,1|(78,1005)|
+1,80,81,78,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(-89,1005)|
+11,81,48,-6,1005,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,82,Net change in marine vehicles use,-6,1032,65,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,83,Marine vehicle per industrial activity,-242,1185,63,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,84,Marine vehicle per tourism activity,-31,1220,63,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,85,Marine vehicle per farming activity,138,1205,65,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,86,Marine vehicle per wildlife activity,274,1128,63,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,87,83,82,0,0,0,0,0,64,0,-1--1--1,,1|(-131,1112)|
+1,88,84,82,0,0,0,0,0,64,0,-1--1--1,,1|(-20,1132)|
+1,89,85,82,0,0,0,0,0,64,0,-1--1--1,,1|(70,1123)|
+1,90,86,82,0,0,0,0,0,64,0,-1--1--1,,1|(140,1082)|
+1,91,49,82,1,0,0,0,0,64,0,-1--1--1,,1|(-182,1225)|
+1,92,6,82,0,0,0,0,0,64,0,-1--1--1,,1|(-631,673)|
+1,93,18,82,0,0,0,0,0,64,0,-1--1--1,,1|(-659,842)|
+1,94,24,82,0,0,0,0,0,64,0,-1--1--1,,1|(-653,974)|
+1,95,36,82,0,0,0,0,0,64,0,-1--1--1,,1|(-661,1078)|
+10,96,Reduction rate in maine vehicles,370,1092,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,97,96,82,0,0,0,0,0,64,0,-1--1--1,,1|(192,1063)|
+1,98,77,82,1,0,0,0,0,64,0,-1--1--1,,1|(22,944)|
+10,99,Air vehicles in use,202,1441,45,31,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,100,48,-146,1437,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,101,103,99,4,0,0,22,0,0,0,-1--1--1,,1|(87,1437)|
+1,102,103,100,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(-67,1437)|
+11,103,48,10,1437,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,104,Net change in air vehicles use,10,1465,57,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,105,Air vehicle per industrial activity,-355,1516,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,106,Air vehicle per tourism activity,-170,1537,52,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,107,105,104,0,0,0,0,0,64,0,-1--1--1,,1|(-180,1491)|
+1,108,106,104,0,0,0,0,0,64,0,-1--1--1,,1|(-87,1503)|
+1,109,49,104,1,0,0,0,0,64,0,-1--1--1,,1|(-230,1445)|
+1,110,99,104,1,0,0,0,0,64,0,-1--1--1,,1|(66,1409)|
+10,111,Reduction rate in air vehicles,93,1553,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,112,111,104,0,0,0,0,0,64,0,-1--1--1,,1|(56,1513)|
+10,113,Net change in industrial activities,-267,1656,67,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,114,113,104,1,0,0,0,0,64,0,-1--1--1,,1|(-50,1581)|
+10,115,Net change in tourism and leisure activities,-54,1693,79,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,116,115,104,1,0,0,0,0,64,0,-1--1--1,,1|(18,1601)|
+10,117,Baseline population,-1395,1416,67,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,118,117,37,1,0,0,0,0,64,0,-1--1--1,,1|(-1500,1394)|
+10,119,Unit converter,-1416,1208,49,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,120,119,36,0,0,0,0,0,64,0,-1--1--1,,1|(-1381,1178)|
+1,121,119,37,1,0,0,0,0,64,0,-1--1--1,,1|(-1474,1282)|
+10,122,Essential industrial activities,-1287,113,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,123,122,5,0,0,0,0,0,64,0,-1--1--1,,1|(-1272,192)|
+10,124,Baseline industrial activities,-1110,98,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,125,124,5,0,0,0,0,0,64,0,-1--1--1,,1|(-1184,187)|
+10,126,Unstoppable tourism and leisure activities,-1316,430,64,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,127,Baseline tourism and leisure activities,-1159,426,69,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,128,126,17,0,0,0,0,0,64,0,-1--1--1,,1|(-1303,518)|
+1,129,127,17,0,0,0,0,0,64,0,-1--1--1,,1|(-1223,517)|
+10,130,Essential farming activities,-1547,990,53,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,131,Baseline farming activities,-1063,1337,52,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,132,130,35,0,0,0,0,0,64,0,-1--1--1,,1|(-1421,1041)|
+1,133,131,74,1,0,0,0,0,64,0,-1--1--1,,1|(-1155,1313)|
+1,134,131,36,1,0,0,0,0,64,0,-1--1--1,,1|(-1100,1240)|
+10,135,Unit converter,-1378,1002,59,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,136,135,24,0,0,0,0,0,64,0,-1--1--1,,1|(-1355,975)|
+10,137,Essential wildlife conservation activities,-1412,766,76,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,138,Baseline wildlife conservation activities,-1250,766,76,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,139,137,24,0,0,0,0,0,64,0,-1--1--1,,1|(-1368,829)|
+1,140,138,24,0,0,0,0,0,64,0,-1--1--1,,1|(-1273,828)|
+10,141,Unit converter,-1448,700,59,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,142,141,18,0,0,0,0,0,64,0,-1--1--1,,1|(-1381,683)|
+10,143,Unit converter,-1391,389,59,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,144,143,6,0,0,0,0,0,64,0,-1--1--1,,1|(-1345,363)|
+10,145,Noise Pollution,1528,210,61,36,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,146,48,1151,204,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,147,149,145,4,0,0,22,0,0,0,-1--1--1,,1|(1393,204)|
+1,148,149,146,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(1234,204)|
+11,149,48,1314,204,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,150,Net change in noise pollution,1314,231,49,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,151,Air Pollution,1564,546,63,41,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,152,48,1183,546,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,153,155,151,4,0,0,22,0,0,0,-1--1--1,,1|(1427,546)|
+1,154,155,152,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(1267,546)|
+11,155,48,1347,546,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,156,Net change in air pollution,1347,573,57,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,157,Water Pollution,1566,870,70,42,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,158,48,1165,872,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,159,161,157,4,0,0,22,0,0,0,-1--1--1,,1|(1410,872)|
+1,160,161,158,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(1244,872)|
+11,161,48,1319,872,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,162,Net change in water pollution,1319,899,50,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,163,Soil pollution,1598,1167,75,40,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,164,48,1201,1166,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,165,167,163,4,0,0,22,0,0,0,-1--1--1,,1|(1448,1166)|
+1,166,167,164,68,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(1286,1166)|
+11,167,48,1367,1166,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,168,Net change in soil pollution,1367,1193,60,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,169,Air borne diseases hazard,2127,484,61,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,170,Water borne diseases hazard,2123,845,52,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,171,Quality of food,2210,1141,51,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,172,Human health risk index,2781,585,47,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,173,Awareness,2111,157,37,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,175,145,173,0,0,0,0,0,64,0,-1--1--1,,1|(1824,184)|
+1,176,151,173,1,0,0,0,0,64,0,-1--1--1,,1|(1826,549)|
+1,177,157,173,1,0,0,0,0,64,0,-1--1--1,,1|(2109,499)|
+1,178,157,170,0,0,0,0,0,64,0,-1--1--1,,1|(1846,857)|
+1,179,151,169,0,0,0,0,0,64,0,-1--1--1,,1|(1839,515)|
+1,180,169,172,0,0,0,0,0,64,0,-1--1--1,,1|(2454,533)|
+1,181,170,172,0,0,0,0,0,64,0,-1--1--1,,1|(2445,717)|
+1,182,171,172,0,0,0,0,0,64,0,-1--1--1,,1|(2485,871)|
+1,183,163,171,0,0,0,0,0,64,0,-1--1--1,,1|(1909,1153)|
+1,184,157,168,1,0,0,0,0,64,0,-1--1--1,,1|(1397,1069)|
+10,185,Deforestation rate,1292,686,58,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,186,185,156,0,0,0,0,0,64,0,-1--1--1,,1|(1313,639)|
+10,187,Wildlife conservation activities,1206,797,76,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,188,187,185,0,0,0,0,0,64,0,-1--1--1,,1|(1247,743)|
+10,189,Industrial activities,1053,622,36,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,190,189,156,0,0,0,0,0,64,0,-1--1--1,,1|(1182,600)|
+10,191,Waste water,689,951,41,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,192,189,191,0,0,0,0,0,64,0,-1--1--1,,1|(871,785)|
+10,193,Tourism and leisure activities,693,1149,58,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,194,193,191,0,0,0,0,0,64,0,-1--1--1,,1|(691,1052)|
+10,195,Farming activities,503,1006,34,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,196,195,191,0,0,0,0,0,64,0,-1--1--1,,1|(587,981)|
+1,197,191,162,0,0,0,0,0,64,0,-1--1--1,,1|(992,926)|
+1,198,77,162,1,0,0,0,0,64,0,-1--1--1,,1|(804,880)|
+10,199,Industrial activities,1104,1306,36,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,200,199,168,1,0,0,0,0,64,0,-1--1--1,,1|(1197,1276)|
+10,201,Soil pollutants per industrial activitiy,1107,1394,71,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,202,Soil pollutants due to polluted water,1536,1381,71,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,203,Soil pollutants due to air pollution,1599,1324,59,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,204,201,168,0,0,0,0,0,64,0,-1--1--1,,1|(1230,1297)|
+1,205,202,168,0,0,0,0,0,64,0,-1--1--1,,1|(1456,1292)|
+1,206,203,168,0,0,0,0,0,64,0,-1--1--1,,1|(1489,1261)|
+10,207,Soil pollution reduction,1231,1074,46,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,208,207,168,0,0,0,0,0,64,0,-1--1--1,,1|(1288,1124)|
+1,209,163,168,1,0,0,0,0,64,0,-1--1--1,,1|(1486,1121)|
+10,210,Noise pollution per industrial activity,1523,74,50,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,211,Noise pollution per vehicle in use,1369,77,50,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,212,Noise pollution per marine vehicle in use,1167,71,55,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,213,Noise pollution per air vehicle in use,1007,72,50,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,214,213,150,1,0,0,0,0,64,0,-1--1--1,,1|(1149,155)|
+1,215,212,150,1,0,0,0,0,64,0,-1--1--1,,1|(1255,141)|
+1,216,211,150,1,0,0,0,0,64,0,-1--1--1,,1|(1324,144)|
+1,217,210,150,1,0,0,0,0,64,0,-1--1--1,,1|(1402,156)|
+10,218,Net change in industrial activities,990,235,53,14,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,219,Net change in vehicles in use,1019,291,42,14,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,220,Net change in marine vehicles use,1117,326,55,14,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,221,Net change in air vehicles use,1248,332,48,14,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,222,218,150,1,0,0,0,0,64,0,-1--1--1,,1|(1169,256)|
+1,223,219,150,1,0,0,0,0,64,0,-1--1--1,,1|(1188,277)|
+1,224,220,150,1,0,0,0,0,64,0,-1--1--1,,1|(1224,289)|
+1,225,221,150,1,0,0,0,0,64,0,-1--1--1,,1|(1309,275)|
+1,226,151,168,1,0,0,0,0,64,0,-1--1--1,,1|(1379,1051)|
+10,227,Tourism and leisure activities,1111,1253,46,14,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,228,227,168,1,0,0,0,0,64,0,-1--1--1,,1|(1225,1226)|
+10,229,Soil pollutants per tourism and leisure activity,1352,1443,49,21,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,230,229,168,0,0,0,0,0,64,0,-1--1--1,,1|(1358,1323)|
+10,231,Pesticide usage per farming acitivity,1041,1473,49,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,232,Regulations and presevation,1048,1574,45,14,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128,0,0,0,0,0,0
+1,233,232,231,0,0,0,0,0,64,0,-1--1--1,,1|(1045,1530)|
+10,234,Farming activities,1096,1206,53,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128,0,0,0,0,0,0
+1,235,231,168,1,0,0,0,0,64,0,-1--1--1,,1|(1233,1417)|
+1,236,234,168,0,0,0,0,0,64,0,-1--1--1,,1|(1221,1199)|
+10,238,Air pollution per vehicle,1266,452,44,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,239,Air pollution per marine vehicle,1388,451,44,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,240,Air pollution per air vehicle,1533,450,44,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,241,Air pollution per industrial activity,1086,454,45,14,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,242,Air pollution per tourisn and leisure activity,1658,454,47,21,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,243,Vehicles in use,992,560,45,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128,0,0,0,0,0,0
+10,244,Air vehicles in use,1419,652,54,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128,0,0,0,0,0,0
+10,245,Marine vehicles in use,1164,660,45,14,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128,0,0,0,0,0,0
+10,246,Tourism and leisure activities,1033,520,46,14,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128,0,0,0,0,0,0
+1,247,241,156,1,0,0,0,0,64,0,-1--1--1,,1|(1297,521)|
+1,248,238,156,1,0,0,0,0,64,0,-1--1--1,,1|(1340,494)|
+1,249,239,156,1,0,0,0,0,64,0,-1--1--1,,1|(1386,497)|
+1,250,240,156,1,0,0,0,0,64,0,-1--1--1,,1|(1428,513)|
+1,251,242,156,0,0,0,0,0,64,0,-1--1--1,,1|(1510,509)|
+1,252,246,156,1,0,0,0,0,64,0,-1--1--1,,1|(1172,506)|
+1,253,243,156,1,0,0,0,0,64,0,-1--1--1,,1|(1188,577)|
+1,256,245,156,1,0,0,0,0,64,0,-1--1--1,,1|(1273,620)|
+1,257,244,156,1,0,0,0,0,64,0,-1--1--1,,1|(1425,606)|
 \\\---/// Sketch information - do not modify anything except names
 V300  Do not put anything below this section - it will be ignored
 *View 2
-$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,100,0
 ///---\\\
 :L<%^E!@
-1:Current
 9:Current
 23:0
 15:0,0,0,0,0,0
@@ -654,7 +715,7 @@ $192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,1
 72:0
 73:0
 4:Time
-5:Net change in soil pollution
+5:Deforestation rate
 35:Date
 36:YYYY-MM-DD
 37:2000
